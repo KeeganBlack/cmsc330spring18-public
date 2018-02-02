@@ -1,19 +1,36 @@
 require_relative "graph.rb"
+require "pp"
 
 class Synsets
     def initialize
+      @words = Hash.new([]);
+      @graph = Graph.new
     end
 
     def load(synsets_file)
-        raise Exception, "Not implemented"
+          File.readlines(synsets_file, "\n") do |line|
+          phrase = line.split(" ")
+          return true;
+        end
     end
 
     def addSet(synset_id, nouns)
-        raise Exception, "Not implemented"
+        if(synset_id < 0) then
+          return false;
+        end
+        if(nouns == nil) then
+            return false;
+        end
+        if(@graph.hasVertex?(synset_id) == true) then
+          return false;
+        end
+        @graph.addVertex(synset_id);
+        @words[synset_id] = nouns;
+        return true;
     end
 
     def lookup(synset_id)
-        raise Exception, "Not implemented"
+        return @words[synset_id];
     end
 
     def findSynsets(to_find)
